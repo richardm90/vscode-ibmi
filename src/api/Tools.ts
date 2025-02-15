@@ -110,8 +110,8 @@ export namespace Tools {
 
           https://stackoverflow.com/a/14495321/4763757
 
-          Look at a list of Unicode blocks and their code point ranges, e.g. 
-          the browsable http://www.fileformat.info/info/unicode/block/index.htm or 
+          Look at a list of Unicode blocks and their code point ranges, e.g.
+          the browsable http://www.fileformat.info/info/unicode/block/index.htm or
           the official http://www.unicode.org/Public/UNIDATA/Blocks.txt :
 
           Anything up to U+007F takes 1 byte: Basic Latin
@@ -239,8 +239,8 @@ export namespace Tools {
   export function sanitizeObjNamesForPase(libraries: string[]): string[] {
     return libraries
       .map(library => {
-        // Quote libraries starting with #
-        return library.startsWith(`#`) ? `"${library}"` : library;
+        // Quote library names containing #
+        return library.includes(`#`) ? `"${library}"` : library;
       });
   }
 
@@ -345,21 +345,21 @@ export namespace Tools {
     }
     return 0;
   }
-  
+
   /**
    * Transforms a file path into an OS agnostic path.
    * - Replaces full home directory path by ~
    * - Replaces all \ into / on Windows
-   * 
-   * @param filePath 
-   * @returns 
+   *
+   * @param filePath
+   * @returns
    */
   export function normalizePath(filePath: string) {
     //Test path in lowercase since os.homedir doesn't always has the same case as filePath on Windows
     if(filePath.toLowerCase().startsWith(os.homedir().toLowerCase())){
       filePath = path.join(`~`, filePath.substring(os.homedir().length));
     }
-    
+
     return process.platform === "win32" ? filePath.replaceAll('\\', '/') : filePath;
   }
 
@@ -367,8 +367,8 @@ export namespace Tools {
    * Transforms a normalized path into an OS specific path.
    * - Replaces ~ with the current home directory
    * - Changes all / to \ on Windows
-   * @param path 
-   * @returns 
+   * @param path
+   * @returns
    */
   export function resolvePath(path: string) {
     path = path.replace("~", os.homedir());
