@@ -174,7 +174,7 @@ export async function getStuckJobs(connection: IBMi): Promise<string[]> {
 
 export function endJobs(jobIds: string[], connection: IBMi) {
   const promises = jobIds.map(id => connection.sendCommand({
-    command: `system "ENDJOB JOB(${id}) OPTION(*IMMED)"`
+    command: `/QOpenSys/usr/bin/system "ENDJOB JOB(${id}) OPTION(*IMMED)"`
   }));
 
   return Promise.all(promises);

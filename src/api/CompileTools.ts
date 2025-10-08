@@ -95,7 +95,7 @@ export namespace CompileTools {
               command: [
                 ...options.noLibList ? [] : buildLiblistCommands(connection, ileSetup),
                 ...commands.map(command =>
-                  `${`system "${IBMi.escapeForShell(command)}"`}`,
+                  `${`/QOpenSys/usr/bin/system "${IBMi.escapeForShell(command)}"`}`,
                 )
               ].join(` && `),
               directory: cwd,
@@ -122,7 +122,7 @@ export namespace CompileTools {
   }
 
   function buildLibraryList(config: ILELibrarySettings): string[] {
-    //We have to reverse it because `liblist -a` adds the next item to the top always 
+    //We have to reverse it because `liblist -a` adds the next item to the top always
     return config.libraryList.slice(0).reverse();
   }
 

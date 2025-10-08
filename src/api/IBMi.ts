@@ -692,7 +692,7 @@ export default class IBMi {
                     break;
                   }
                 }
-                // If reason is still undefined, then we know the user has all the required paths. Then we don't 
+                // If reason is still undefined, then we know the user has all the required paths. Then we don't
                 // need to check for their existence before checking the order of the required paths.
                 if (!reason &&
                   (currentPaths.indexOf("/QOpenSys/pkgs/bin") > currentPaths.indexOf("/usr/bin")
@@ -940,7 +940,7 @@ export default class IBMi {
           }
         }
 
-        // We always need to fetch the local variants because 
+        // We always need to fetch the local variants because
         // now we pickup CCSID changes faster due to cqsh
         callbacks.progress({
           message: `Fetching local encoding values.`
@@ -1402,13 +1402,13 @@ export default class IBMi {
       // CHGJOB not required here. It will use the job CCSID, or the runtime CCSID.
       let input = Tools.fixSQL(`${possibleChangeCommand}${statements}`, true);
       let returningAsCsv: WrapResult | undefined;
-      let command = `${IBMi.locale} system "call QSYS/QZDFMDB2 PARM('-d' '-i' '-t')"`
+      let command = `${IBMi.locale} /QOpenSys/usr/bin/system "call QSYS/QZDFMDB2 PARM('-d' '-i' '-t')"`
       let useCsv = options.forceSafe;
 
       // Use custom QSH if available
       if (this.canUseCqsh) {
         const customQsh = this.getComponent<CustomQSh>(CustomQSh.ID)!;
-        command = `${IBMi.locale} ${customQsh.installPath} -c "system \\"call QSYS/QZDFMDB2 PARM('-d' '-i' '-t')\\""`;
+        command = `${IBMi.locale} ${customQsh.installPath} -c "/QOpenSys/usr/bin/system \\"call QSYS/QZDFMDB2 PARM('-d' '-i' '-t')\\""`;
       }
 
       if (this.requiresTranslation) {
